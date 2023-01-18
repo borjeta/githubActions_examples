@@ -1,7 +1,7 @@
 
 on:
   push:
-  
+
     branches:
       - nodejs_example
   pull_request:
@@ -11,6 +11,15 @@ jobs:
   linter-execution:
     runs-on: ubuntu-latest
     steps:
+      ################################
+# Run Linter against code base #
+################################
+      - name: Lint Code Base
+        uses: github/super-linter/slim@v4
+        env:
+          VALIDATE_ALL_CODEBASE: false
+          DEFAULT_BRANCH: master
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Linter execution
