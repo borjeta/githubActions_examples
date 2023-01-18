@@ -8,7 +8,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v3
       - name: Linter execution
         uses: github/super-linter@v3
         env:
@@ -17,3 +17,5 @@ jobs:
           LINTER_RULES_PATH: /
           JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
           VALIDATE_JAVASCRIPT_ES: true
+        run: npm -version
+        run: node server.js
