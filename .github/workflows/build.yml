@@ -18,5 +18,4 @@ jobs:
           JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
           VALIDATE_JAVASCRIPT_ES: true
         run: npm install
-        run: npm -version
         run: node server.js
