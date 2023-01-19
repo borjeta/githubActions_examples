@@ -22,5 +22,5 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run jest tests
-        run: npm install jest && npm jest
+        run: npm install jest && npm test
        
