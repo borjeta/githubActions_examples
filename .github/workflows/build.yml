@@ -1,17 +1,21 @@
 on:
   push:
     branches:
-      - nodejs_jest_job
+      - nodejs_nodeversions_job
 jobs:
   linter-execution:
     runs-on: ubuntu-latest
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
+      - name: Setting node version
+        uses: actions/setup-node@v2
+        with: 
+          node-version: '10', '12', '14'
       - name: Linter execution
         uses: github/super-linter@v4
         env:
-          DEFAULT_BRANCH: nodejs_linter_job
+          DEFAULT_BRANCH: nodejs_nodeversions_job
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: /
           JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
@@ -25,7 +29,7 @@ jobs:
         run: npm install jest &&  npm test
         env:
           CI: true
-          DEFAULT_BRANCH: nodejs_jest_job
+          DEFAULT_BRANCH: nodejs_nodeversions_job
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           
        
