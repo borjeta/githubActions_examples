@@ -21,6 +21,6 @@
   },
   "homepage": "https://github.com/borjeta/githubActions_examples#readme",
   "dependencies": {
-    "jest": "^29.3.1"
+    "jest": "^27.4.3"
   }
 }
