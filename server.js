@@ -1,4 +1,3 @@
-/* Crear un servidor HTTP básico por el puerto 3000 */
 const http = require("http");
 const server = http.createServer((req, res) => {
   res.statusCode = 200;
