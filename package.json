@@ -19,5 +19,8 @@
   "bugs": {
     "url": "https://github.com/borjeta/githubActions_examples/issues"
   },
-  "homepage": "https://github.com/borjeta/githubActions_examples#readme"
+  "homepage": "https://github.com/borjeta/githubActions_examples#readme",
+  "dependencies": {
+    "jest": "^29.3.1"
+  }
 }
