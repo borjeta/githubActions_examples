@@ -1,7 +1,7 @@
 on:
   push:
     branches:
-      - nodejs__job
+      - nodejs_jest_job
 jobs:
   linter-execution:
     runs-on: ubuntu-latest
