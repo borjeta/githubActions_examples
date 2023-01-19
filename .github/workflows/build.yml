@@ -22,5 +22,10 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v2
       - name: Run jest tests
-        run: npm install jest && sudo npm test
+        run: npm install jest &&  npm test
+        env:
+          CI: true
+          DEFAULT_BRANCH: nodejs_jest_job
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          
        
