@@ -11,7 +11,6 @@ jobs:
         env: 
           - CI: true
           - DEFAULT_BRANCH: nodejs_environment_job
-          - GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           - DESTINATION_PERSON: '2DAW'
     steps:
       - name: Checkout code
