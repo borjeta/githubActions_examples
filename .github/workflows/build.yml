@@ -37,5 +37,5 @@ jobs:
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DESTINATION_PERSON: 2DAW
         with:
-            who-to-greet: {{jobs.nodejs_environment_job.env.DESTINATION_PERSON}}
+            who-to-greet: jobs.nodejs_environment_job.env.DESTINATION_PERSON
       
