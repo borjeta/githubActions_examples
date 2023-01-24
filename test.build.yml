@@ -1,0 +1,32 @@
+on:
+  push:
+    branches:
+            - react_app_deploy
+jobs:
+  build:
+runs-on: ubuntu-latest
+steps:
+- uses: actions/checkout@v2
+- name: Install dependencies
+run: npm install
+- name: Build
+run: npm run build
+- name: Upload artifacts
+uses: actions/upload-artifact@v2
+with:
+name: build
+path: build
+deploy:
+needs: build
+runs-on: ubuntu-latest
+steps:
+- uses: actions/download-artifact@v2
+with:
+name: build
+- name: Deploy
+uses: dswistowski/surge-sh-action@v1
+with:
+token: ${{ secrets.SURGE_TOKEN }}
+domain: ${{ secrets.SURGE_DOMAIN }}
+path: build
+

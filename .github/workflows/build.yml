@@ -1,41 +1,42 @@
+#Sobre el repositorio creado en la actividad anterior y partiendo de la rama master, crea una nueva rama (react_app_deploy). Una vez hecho esto, deberás crear dentro de esta un proyecto react sencillo (el generado por el comando npx create-react-app sería suficiente). Dentro de esta rama, también habrá que crear un workflow (example_workflow) con las siguientes características:
+
+#Dispondrá de dos jobs, uno encargado de la fase de construcción de los estáticos y otro encargado de hacer el despliegue de la aplicación en surge.sh (link). Se ejecutará al hacer un push sobre la rama creada y las características de sus jobs serán:
+#Build job con 3 steps:
+#Uno encargado de obtener el código del repositorio actions/checkout@v2
+#Otro encargado de crear los estáticos. Ejecutará el comando npm install y npm run build
+#Un tercer paso encargado subir los artefactos generados para actions/upload-artifact@v2  (ejemplos)
+#Deploy job que siempre se ejecutará tras el job anterior con 2 steps:
+#Un primero encargado de descargar los artifacts actions/download-artifact@v2
+#Un segundo encargado de desplegar los artefactos descargados en surge dswistowski/surge-sh-action@v1 (link)
+
 on:
   push:
     branches:
-      - nodejs_environment_job
-jobs: 
-  nodejs_environment_job:
+            - react_app_deploy
+jobs:
+  build:
     runs-on: ubuntu-latest
-    strategy:
-      matrix:
-        node-version: [10.x, 12.x]
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v2
-      - name: Setting node version
-        uses: actions/setup-node@v2
-        with: 
-          node-version: ${{ matrix.node-version }}
-      - name: Linter execution
-        uses: github/super-linter@v4
-        env:
-          DEFAULT_BRANCH: nodejs_environment_job
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          LINTER_RULES_PATH: /
-          JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
-          VALIDATE_JAVASCRIPT_ES: true
-      - name: Run jest tests
-        run: npm install jest &&  npm test
-        env:
-          CI: true
-          DEFAULT_BRANCH: nodejs_environment_job
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: environment test execution
-        uses: adeloyedeji/github-actions-hello@v1.0
-        env:
-          CI: true
-          DEFAULT_BRANCH: nodejs_environment_job
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DESTINATION_PERSON: '2DAW'
-        with:
-            who-to-greet: ${{env.DESTINATION_PERSON}}
-      
+    - uses: actions/checkout@v2
+    - name: Install dependencies
+      run: npm install
+    - name: Build
+      run: npm run build
+    - name: Upload artifacts
+      uses: actions/upload-artifact@v2
+      with:
+        name: build
+        path: build
+  deploy:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/download-artifact@v2
+      with:
+        name: build
+    - name: Deploy
+      uses: dswistowski/surge-sh-action@v1
+      with:
+        token: ${{ secrets.SURGE_TOKEN }}
+        domain: ${{ secrets.SURGE_DOMAIN }}
+        path: build
