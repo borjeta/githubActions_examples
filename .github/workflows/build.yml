@@ -35,7 +35,7 @@ jobs:
           CI: true
           DEFAULT_BRANCH: nodejs_environment_job
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DESTINATION_PERSON: 2DAW
+          DESTINATION_PERSON: '2DAW'
         with:
             who-to-greet: jobs.nodejs_environment_job.env.DESTINATION_PERSON
       
