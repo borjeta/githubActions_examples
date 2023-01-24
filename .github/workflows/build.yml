@@ -29,12 +29,7 @@ jobs:
           CI: true
           DEFAULT_BRANCH: nodejs_environment_job
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: environment_test_execution
-        env:
-          CI: true
-          DEFAULT_BRANCH: nodejs_environment_job
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: Test Javascript Hello Action
+      - name: environment test execution
         uses: adeloyedeji/github-actions-hello@v1.0
         env:
           CI: true
@@ -44,3 +39,4 @@ jobs:
             DESTINATION_PERSON: '2DAW'
           with:
             who-to-greet: 'DESTINATION_PERSON'
+      
