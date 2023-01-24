@@ -3,11 +3,16 @@ on:
     branches:
       - nodejs_environment_job
 jobs: 
-  nodejs_nodeversions_job:
+  nodejs_environment_job:
     runs-on: ubuntu-latest
     strategy:
       matrix:
         node-version: [10.x, 12.x]
+        env: 
+          - CI: true
+          - DEFAULT_BRANCH: nodejs_environment_job
+          - GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          - DESTINATION_PERSON: '2DAW'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
