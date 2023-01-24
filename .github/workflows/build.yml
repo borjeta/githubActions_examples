@@ -18,7 +18,7 @@ jobs:
       - name: Linter execution
         uses: github/super-linter@v4
         env:
-          DEFAULT_BRANCH: nodejs_environment_job
+          DEFAULT_BRANCH: nodejs_nodeversions_job
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           LINTER_RULES_PATH: /
           JAVASCRIPT_ES_CONFIG_FILE: .eslintrc.json
@@ -27,18 +27,5 @@ jobs:
         run: npm install jest &&  npm test
         env:
           CI: true
-          DEFAULT_BRANCH: nodejs_environment_job
+          DEFAULT_BRANCH: nodejs_nodeversions_job
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      - name: environment_test_execution
-        env:
-          CI: true
-          DEFAULT_BRANCH: nodejs_environment_job
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DESTINATION_PERSON: "2DAW"
-      - name: Test Javascript Hello Action
-        uses: adeloyedeji/github-actions-hello@v1.0
-        env:
-          CI: true
-          DEFAULT_BRANCH: nodejs_environment_job
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          WHO_TO_GREET: DESTINATION_PERSON
