@@ -8,10 +8,6 @@ jobs:
     strategy:
       matrix:
         node-version: [10.x, 12.x]
-        env: 
-          - CI: true
-          - DEFAULT_BRANCH: nodejs_environment_job
-          - DESTINATION_PERSON: '2DAW'
     steps:
       - name: Checkout code
         uses: actions/checkout@v2
@@ -39,7 +35,8 @@ jobs:
           CI: true
           DEFAULT_BRANCH: nodejs_environment_job
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          DESTINATION_PERSON: '2DAW'
+          env_var: 
+            $DESTINATION_PERSON: '2DAW'
         with:
             who-to-greet: $DESTINATION_PERSON
       
