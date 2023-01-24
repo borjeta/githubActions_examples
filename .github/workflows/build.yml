@@ -36,5 +36,6 @@ jobs:
           DEFAULT_BRANCH: nodejs_environment_job
           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           DESTINATION_PERSON: '2DAW'
-        inputs:
-          who-to-greet: DESTINATION_PERSON      
+        with:
+            who-to-greet: ${{env.DESTINATION_PERSON}}
+      
