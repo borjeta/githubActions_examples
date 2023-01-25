@@ -13,7 +13,7 @@ description: 'Workflow para enviar mensajes a Telegram'
 on:
   push:
     branches:
-      - master
+      - send_telegram_action
 jobs:
   envio_mensaje:
     runs-on: ubuntu-latest
