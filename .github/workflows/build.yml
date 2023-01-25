@@ -1,39 +1,31 @@
+#Sobre el repositorio creado en la actividad anterior y partiendo de la rama master, crea una nueva rama (send_telegram_action). Una vez hecho esto, deberás crear todo lo necesario para que:
 
+#Exista una custom Action creada por ti que, utilizando Nodejs (la librería node-telegram-bot-api os permite hacerlo sin mucha complicación), sea capaz de enviar mensajes a Telegram. Sus principales características serán:
+#Utilizará dos variables de entorno, una para almacenar el token de Telegram y otra para almacenar el id del chat sobre el que escribirá.
+#Enviará via Telegram el texto "Workflow ejecutado correctamente tras el último commit. Saludos NOMBRE"
+#Enviará como respuesta el texto "Mensaje enviado"
+#Exista un workflow (send_telegram_workflow.yml) con un job (envio_mensaje) con los siguientes steps:
+#Uno encargado de obtener el código del repositorio actions/checkout@v2
+#Otro encargado de ejecutar la action creada por nosotros mismos. Se le establecerán las variables de entorno comentadas anteriormente (como secrets de github para evitar mostrar datos comprometidos) así como el nombre de la persona que queramos que se muestre en el mensaje.
+
+name: send_telegram_workflow
+description: 'Workflow para enviar mensajes a Telegram'
 on:
   push:
     branches:
-            - react_app_deploy
+      - master
 jobs:
-  build:
+  envio_mensaje:
     runs-on: ubuntu-latest
     steps:
-    - uses: actions/checkout@v2
-    - name: Install dependencies
-     #version de node 16
-      uses: actions/setup-node@v2
-      with:
-        node-version: '19'
-    - run: npm install
-    - run: npm install run
-    - run : npm install surge
-    - run : npm install build
-    - run: npm run build
-    - name: Upload artifacts
-      uses: actions/upload-artifact@v2
-      with:
-        name: build
-        path: build
-  deploy:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-    - uses: actions/download-artifact@v2
-      with:
-        name: build
-    - name: Deploy
-      uses: dswistowski/surge-sh-action@v1
-      with:
-        token: ${{ secrets.SURGE_TOKEN }}
-        domain: ${{ secrets.SURGE_DOMAIN }}
-        path: build
-        
+      - name: Obtener código
+        uses: actions/checkout@v2
+      - name: Ejecutar action
+        uses: ./.github/actions/send_telegram_action
+        with:
+          telegram_token: ${{ secrets.TELEGRAM_TOKEN }}
+          telegram_chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
+          nombre: ${{ secrets.NOMBRE }}
+
+#
+
