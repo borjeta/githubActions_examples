@@ -26,5 +26,3 @@ jobs:
           telegram_chat_id: ${{ secrets.TELEGRAM_CHAT_ID }}
           nombre: ${{ secrets.NOMBRE }}
 
-#
-
