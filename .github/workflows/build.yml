@@ -9,7 +9,6 @@
 #Otro encargado de ejecutar la action creada por nosotros mismos. Se le establecerán las variables de entorno comentadas anteriormente (como secrets de github para evitar mostrar datos comprometidos) así como el nombre de la persona que queramos que se muestre en el mensaje.
 
 name: send_telegram_workflow
-description: 'Workflow para enviar mensajes a Telegram'
 on:
   push:
     branches:
