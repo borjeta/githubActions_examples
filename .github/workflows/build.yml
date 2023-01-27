@@ -1,0 +1,29 @@
+#Sobre el repositorio creado en la actividad anterior y partiendo de la rama master, crea una nueva rama (send_telegram_action). Una vez hecho esto, deberás crear todo lo necesario para que:
+
+#Exista una custom Action creada por ti que, utilizando Nodejs (la librería node-telegram-bot-api os permite hacerlo sin mucha complicación), sea capaz de enviar mensajes a Telegram. Sus principales características serán:
+#Utilizará dos variables de entorno, una para almacenar el token de Telegram y otra para almacenar el id del chat sobre el que escribirá.
+#Enviará via Telegram el texto "Workflow ejecutado correctamente tras el último commit. Saludos NOMBRE"
+#Enviará como respuesta el texto "Mensaje enviado"
+#En el fichero de la Action, deberás incluir un README.md con toda la información necesaria para que cualquier persona pueda utilizarla.
+#Exista un workflow (send_telegram_workflow.yml) con un job (envio_mensaje) con los siguientes steps:
+#Uno encargado de obtener el código del repositorio actions/checkout@v2
+#nOtro encargado de ejecutar la action creada por nosotros mismos. Se le establecerán las variables de entorno comentadas anteriormente (como secrets de github para evitar mostrar datos comprometidos) así como el nombre de la persona que queramos que se muestre en el mensaje
+
+name: send_telegram_workflow
+
+on: [push]
+  branches:
+    - main
+jobs:
+  envio_mensaje:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Obtener el código del repositorio
+        uses: actions/checkout@v2
+      - name: Ejecutar la action creada por nosotros mismos
+        run: npm i node-telegram-bot-api 
+        env:
+          TOKEN: ${{ secrets.TOKEN }}
+          CHAT_ID: ${{ secrets.CHAT_ID }}
+          NOMBRE: ${{ secrets.NOMBRE }}
+      

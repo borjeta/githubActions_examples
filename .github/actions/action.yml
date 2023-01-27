@@ -1,0 +1,17 @@
+/#action.yml que se ejecutará despues del build.yml
+name: 'send_telegram_action'
+description: 'Enviar mensaje a Telegram'
+inputs:
+  token:
+    description: 'Token de Telegram'
+    required: true
+  chat_id:
+    description: 'Id del chat de Telegram'
+    required: true
+  nombre:
+    description: 'Nombre de la persona que se mostrará en el mensaje'
+    required: true
+runs:
+  using: 'node12'
+  main: 'main.js'
+  
