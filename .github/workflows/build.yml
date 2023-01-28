@@ -62,7 +62,7 @@ jobs:
             git commit -m "Add meme to readme" -a
             
     - name: Push changes
-      uses: ad-m/github-push-action@github_actions_readme
+      uses: git push origin github_actions_readme
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: github_actions_readme
