@@ -6,12 +6,7 @@
 #Otro encargado de subir los cambios a git para que se actualicen los cambios del readme en el repositorio.
 
 name: modify_readme
-on:
-  push:
-    branches: github_actions_readme
-  pull:
-    branches: github_actions_readme
-    
+on: [push]
 jobs:
   build:
     runs-on: ubuntu-latest
