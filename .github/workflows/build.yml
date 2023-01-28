@@ -33,6 +33,8 @@ jobs:
           node-version: '19'
       - name: Install dependencies
         run: npm install
+      - name: Install @actions/core
+        run: npm install -g @actions/core
       - name: Run tests
         run: node index.js
       - name: Save result
