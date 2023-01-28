@@ -39,16 +39,6 @@ jobs:
         run: npm install @actions/github
       - name: prepara el las variables de github
         run: echo "GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY)" >> $GITHUB_ENV
-      - name: Run tests
-        run: node index.js
-      - name: Save result
-        id: save_result
-        run: echo "::set-output name=result::$(node index.js)"
-      - name: Show result
-        run: echo ${{ steps.save_result.outputs.result }}
-      - name: Envia result a la siguiente job
-        id: result
-        run: echo "::set-output name=result::$(node index.js)"
   modify_readme:
     needs: test
     runs-on: ubuntu-latest
@@ -60,7 +50,7 @@ jobs:
       uses: ./
     - name: Commit changes
       run: |
-          git config user.name github-actions[bot]
+          git config user.name "borjeta"
           git config user.email github-actions[bot]@users.noreply.github.com
           npm version patch -m "[RELEASE] %s"
     - name: Push changes
