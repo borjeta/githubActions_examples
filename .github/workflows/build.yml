@@ -36,7 +36,7 @@ jobs:
       - name: Install @actions/core
         run: npm install -g @actions/core
       - name: Install @actions/github
-        run: npm install -g @actions/github
+        run: npm install @actions/github
       #- name: Run tests
        # run: node index.js
       - name: Save result
