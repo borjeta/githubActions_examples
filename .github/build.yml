@@ -1,0 +1,36 @@
+#Exista un workflow (modify_readme.yml) con dos jobs que serán:
+#Uno encargado de ejecutar los tests del proyecto como hicimos en la actividad pasada
+#Otro que se ejecutará siempre tras el job anterior encargado de generar la modificación del readme y que tendrá los siguientes steps
+#Uno encargado de obtener el código del repositorio actions/checkout@v2
+#Otro encargado de llamar a nuestra action que genera el meme al que le pasaremos el resultado del job de ejecución de los tests
+#Otro encargado de subir los cambios a git para que se actualicen los cambios del readme en el repositorio.
+
+name: modify_readme
+
+on:
+  push:
+    branches: [ github_action_readme ]
+  pull_request:
+    branches: [ github_action_readme ]
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Run tests
+        run: |
+          npm install
+          npm test
+      - name: Generate meme
+        uses: ./
+        with:
+          result: ${{ job.status }}
+      - name: Commit changes
+        run: |
+          git config --local user.email "
+          git config --local user.name "
+          git add .
+          git commit -m "Update README.md"
+          git push
+          

@@ -1,0 +1,22 @@
+#Exista una custom Action creada por ti que, utilizando Nodejs sea capaz de modificar el fichero readme.md del proyecto añadiendo un meme con un texto aleatorio.  Sus principales características serán:
+#Utilizará tres parámetros de entreda que serán:
+#frase_positiva: que se utilizará para almacenar una frase positiva ("Los tests han funcionado y lo sabes")
+#frase_negativa: que se utilizará para almacenar otra frase negativa ("Los tests han fallado y lo sabes") que se utilizará como texto en el meme a generar. 
+#resultado_tests: que almacenará el valor del resultado de la ejecución del job encargado de pasar los tests
+#Enviará como respuesta el texto "Meme añadido al readme"
+
+# Path: action.yml
+
+name: 'Generate meme'
+description: 'Generates a meme with a random text'
+#Realiza una peticion a la api de memes para obtener un meme con un texto aleatorio
+#El texto que se utilizará será el que se haya pasado como parámetro de entrada
+#El meme se guardará en la carpeta images
+#El meme se añadirá al readme.md del proyecto
+  inputs:
+    result:
+      description: 'Result of the tests'
+      required: true
+      default: 'success'
+
+  
