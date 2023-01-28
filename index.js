@@ -31,15 +31,16 @@ const memes = axios.get('https://api.imgflip.com/get_memes')
     .catch((error) => {
         console.log(error);
     });
-
-/* modificamos nuestro readme con un meme al azar del array de memes */
-memes.then((memesUrl) => {
+/*
+editamos nuestro readme añadiendo un meme aletaroio de la api de imgflip
+*/
+const editReadme = async () => {
+    const memesUrl = await memes;
     const meme = memesUrl[Math.floor(Math.random() * memesUrl.length)];
-    const readmeMeme = readme.replace('<!--MEME-->', meme);
-    fs.writeFileSync('readme.md', readmeMeme);
-});
-
-
+    const newReadme = readme + meme;
+    fs.writeFileSync('readme.md', newReadme);
+};
+editReadme();
 
 /* hacemos un commit y un push al repositorio */
 exec(`git config --global user.email "
