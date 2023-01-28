@@ -9,7 +9,7 @@ name: modify_readme
 
 on:
   push:
-    branches: [ github_action_readme ]
+    branches:  github_action_readme 
   pull_request:
     branches: [ github_action_readme ]
 
@@ -33,4 +33,3 @@ jobs:
           git add .
           git commit -m "Update README.md"
           git push
-          
