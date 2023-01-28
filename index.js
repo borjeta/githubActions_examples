@@ -5,6 +5,17 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
 
+
+/*Obtenemos nuestro token de github actions para poder hacer commit y push a nuestro repositorio*/
+const token = core.getInput('token');
+const octokit = github.getOctokit(token);
+
+/*Obtenemos el nombre del repositorio*/
+const { context = {} } = github;
+const { repo = {} } = context;
+const { repo: repoName } = repo;
+console.log(`Repo name ${repoName}!`);
+
 exec('node test.js', (err, stdout, stderr) => {
     if (err) {
         // node couldn't execute the command

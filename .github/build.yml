@@ -22,7 +22,15 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run tests
-        run: npm test
+        run: node index.js
+      - name: Save result
+        id: save_result
+        run: echo "::set-output name=result::$(node index.js)"
+      - name: Show result
+        run: echo ${{ steps.save_result.outputs.result }}
+      - name: Envia result a la siguiente job
+        id: result
+        run: echo "::set-output name=result::$(node index.js)"
 
   modify_readme:
     needs: test
@@ -32,15 +40,21 @@ jobs:
       - name: Generate meme
         uses: ./
         with:
-          result: ${{ needs.test.result }}
+          result: ${{ needs.test.outputs.result }}
       - name: Commit changes
         run: |
-          git config --local user.email "
-          git config --local user.name "GitHub Actions"
+          git config --local user.email "borjaalventosa"
+          git config --local user.name "borjeta"
           git add .
-          git commit -m "Update README.md"
+          git commit -m "Add meme to readme" -a
+          
       - name: Push changes
-        uses: ad-m/github-push-action@master
+        uses: ad-m/github-push-action@github_actions_readme
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: github_actions_readme
+        
+
         
 
 
