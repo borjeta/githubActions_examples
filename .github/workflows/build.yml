@@ -54,8 +54,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-    - name: Generate meme
-      uses: ./
+   # - name: Generate meme
+    #  uses: ./
       with:
         result: ${{ needs.test.outputs.result }}
     - name: Commit changes
