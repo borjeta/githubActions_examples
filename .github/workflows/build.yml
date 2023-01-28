@@ -38,8 +38,7 @@ jobs:
         run: npm install -g @actions/core
       - name: Install @actions/github
         run: npm install @actions/github
-      - name: prepara el las variables de github
-        run: echo "GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY)" >> $GITHUB_ENV
+     
       - name: Run tests
         run: node index.js
       - name: Save result
