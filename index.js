@@ -43,15 +43,8 @@ const editReadme = async () => {
 editReadme();
 
 /* hacemos un commit y un push al repositorio */
-exec(`git config --global user.email "
-${github.context.actor
-    }@users.noreply.github.com"`);
-exec(`git config --global user.name "${github.context.actor}"`);
 exec(`git add .`);
 exec(`git commit -m "push hecho por el index.js"`);
-exec(`git push https://${github.context.actor
-    }:${token
-    }@github.com/${repo
-    }.git github_action_readme`);
+exec(`git push`);
 
 
