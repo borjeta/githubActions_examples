@@ -6,10 +6,14 @@ const github = require('@actions/github');
 const fs = require('fs');
 
 /*Obtenemos el nombre del repositorio*/
-const { context = {} } = github;
-const { repo = {} } = context;
 const { repo: repoName } = repo;
 console.log(`Repo name ${repoName}!`);
+
+/* Obtenemos el nombre del usuario  ,el token de github y el nombre del repositorio*/
+const nameToGreet = core.getInput('who-to-greet');
+const token = core.getInput('token');
+const repo = core.getInput('repo');
+
 
 exec('node index.js', (err, stdout, stderr) => {
     if (err) {
