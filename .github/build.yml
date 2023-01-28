@@ -9,7 +9,7 @@ name: 'Modify readme'
 
 on:
   push:
-    branches: [ github_actions_readme ]
+    branches: [main , github_actions_readme ]
 
   pull_request:
     branches: [ github_actions_readme ]
