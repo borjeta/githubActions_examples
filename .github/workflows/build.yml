@@ -12,53 +12,52 @@ on:
     branches:
             - github_action_readme
 jobs:
-    build:
+  build:
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+       #version de node 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '19'
+      - run: npm install
+  test:
+    runs-on: ubuntu-latest
       steps:
-        - uses: actions/checkout@v2
-        - name: Install dependencies
-        #version de node 16
-          uses: actions/setup-node@v2
-          with:
-            node-version: '19'
-        - run: npm install
-    test:
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - name: Install dependencies
-          run: npm install
-        - name: Run tests
-          run: node index.js
-        - name: Save result
-          id: save_result
-          run: echo "::set-output name=result::$(node index.js)"
-        - name: Show result
-          run: echo ${{ steps.save_result.outputs.result 
-        - name: Envia result a la siguiente job
-          id: result
-          run: echo "::set-output name=result::$(node index.js)"
-
-    modify_readme:
-      needs: test
-      runs-on: ubuntu-latest
-      steps:
-        - uses: actions/checkout@v2
-        - name: Generate meme
-          uses: ./
-          with:
-            result: ${{ needs.test.outputs.result }}
-        - name: Commit changes
-          run: |
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: node index.js
+      - name: Save result
+        id: save_result
+        run: echo "::set-output name=result::$(node index.js)"
+      - name: Show result
+        run: echo ${{ steps.save_result.outputs.result 
+      - name: Envia result a la siguiente job
+        id: result
+        run: echo "::set-output name=result::$(node index.js)"
+  modify_readme:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: Generate meme
+      uses: ./
+        with:
+          result: ${{ needs.test.outputs.result }}
+    - name: Commit changes
+      run: |
             git config --local user.email "borjaalventosa"
             git config --local user.name "borjeta"
             git add .
             git commit -m "Add meme to readme" -a
             
-        - name: Push changes
-          uses: ad-m/github-push-action@github_actions_readme
-          with:
-            github_token: ${{ secrets.GITHUB_TOKEN }}
-            branch: github_actions_readme
+    - name: Push changes
+      uses: ad-m/github-push-action@github_actions_readme
+      with:
+        github_token: ${{ secrets.GITHUB_TOKEN }}
+        branch: github_actions_readme
           
 
         
