@@ -50,6 +50,8 @@ jobs:
       uses: ./
     - name: Commit changes
       run: |
+          git config --local user.email "borjaalventosa@gmail.com"
+          git config --local user.name "borjeta"
           git add .
           git commit -m "Meme añadido al readme"
           
