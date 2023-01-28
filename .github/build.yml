@@ -9,11 +9,11 @@ name: 'Modify readme'
 
 on:
   push:
-    branches: [main , github_actions_readme ]
-
+    branches: 
+      - github_actions_readme
   pull_request:
-    branches: [ github_actions_readme ]
-
+    branches: 
+      - github_actions_readme
 jobs:
   test:
     runs-on: ubuntu-latest
