@@ -4,12 +4,29 @@
 #Uno encargado de obtener el código del repositorio actions/checkout@v2
 #Otro encargado de llamar a nuestra action que genera el meme al que le pasaremos el resultado del job de ejecución de los tests
 #Otro encargado de subir los cambios a git para que se actualicen los cambios del readme en el repositorio.
+
+name: 'Modify readme'
+
 on:
+  push:
+    branches: 
+      - github_actions_readme
+  pull_request:
+    branches: 
+      - github_actions_readme
+
+
+
+
+
+
+
+      on:
   push:
     branches:
             - github_action_readme
 jobs:
-  build:
+ build:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
@@ -19,3 +36,46 @@ jobs:
       with:
         node-version: '19'
     - run: npm install
+  test:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+        run: npm install
+      - name: Run tests
+        run: node index.js
+      - name: Save result
+        id: save_result
+        run: echo "::set-output name=result::$(node index.js)"
+      - name: Show result
+        run: echo ${{ steps.save_result.outputs.result }}
+      - name: Envia result a la siguiente job
+        id: result
+        run: echo "::set-output name=result::$(node index.js)"
+
+  modify_readme:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Generate meme
+        uses: ./
+        with:
+          result: ${{ needs.test.outputs.result }}
+      - name: Commit changes
+        run: |
+          git config --local user.email "borjaalventosa"
+          git config --local user.name "borjeta"
+          git add .
+          git commit -m "Add meme to readme" -a
+          
+      - name: Push changes
+        uses: ad-m/github-push-action@github_actions_readme
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: github_actions_readme
+        
+
+        
+
+
