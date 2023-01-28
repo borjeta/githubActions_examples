@@ -54,10 +54,10 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
+    - name: Install @actions/github
+      run: npm install @actions/github
     - name: Generate meme
       uses: ./
-      with:
-        result: ${{ needs.test.outputs.result }}
     - name: Commit changes
       run: |
             git config --local user.email "borjaalventosa@gmail.com"
