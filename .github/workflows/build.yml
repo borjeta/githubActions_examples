@@ -17,29 +17,29 @@ jobs:
     steps:
       - name: Obtenemos repositorio
         uses: actions/checkout@v2
-      - name: Install dependencies
-       #version de node 16
-        uses: actions/setup-node@v2
-        with:
-          node-version: '19'
-      - run: npm install
-  test:
-    runs-on: ubuntu-latest
+#      - name: Install dependencies
+#       #version de node 16
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: '19'
+#      - run: npm install
+#  test:
+#    runs-on: ubuntu-latest
     #version de node 16
-    steps:
-      - uses: actions/checkout@v2
-      - name: Install dependencies
-        uses: actions/setup-node@v2
-        with:
-          node-version: '19'
-      - name: Install dependencies
-        run: npm install
-      - name: Install @actions/core
-        run: npm install -g @actions/core
-      - name: Install @actions/github
-        run: npm install @actions/github
-      - name: prepara el las variables de github
-        run: echo "GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY)" >> $GITHUB_ENV
+#    steps:
+#      - uses: actions/checkout@v2
+#      - name: Install dependencies
+#        uses: actions/setup-node@v2
+#        with:
+#          node-version: '19'
+#      - name: Install dependencies
+#        run: npm install
+#      - name: Install @actions/core
+#        run: npm install -g @actions/core
+#      - name: Install @actions/github
+#        run: npm install @actions/github
+#      - name: prepara el las variables de github
+#        run: echo "GITHUB_REPOSITORY=$(echo $GITHUB_REPOSITORY)" >> $GITHUB_ENV
 #      - name: Run tests
 #        run: node index.js
 #      - name: Save result
