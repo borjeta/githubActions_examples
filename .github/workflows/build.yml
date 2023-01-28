@@ -14,9 +14,9 @@ on:
 jobs:
   build:
     runs-on: ubuntu-latest
-    steps:
-      - name: Obtenemos repositorio
-        uses: actions/checkout@v2
+#   steps:
+#      - name: Obtenemos repositorio
+#        uses: actions/checkout@v2
 #      - name: Install dependencies
 #       #version de node 16
 #        uses: actions/setup-node@v2
