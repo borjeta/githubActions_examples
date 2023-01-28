@@ -12,9 +12,19 @@ on:
     branches:
             - github_action_readme
 jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+      - name: Install dependencies
+       #version de node 16
+        uses: actions/setup-node@v2
+        with:
+          node-version: '19'
+      - run: npm install
   test:
     runs-on: ubuntu-latest
-   #version de node 16
+    #version de node 16
     steps:
       - uses: actions/checkout@v2
       - name: Install dependencies
