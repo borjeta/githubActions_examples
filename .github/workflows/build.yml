@@ -50,7 +50,7 @@ jobs:
       uses: ./
     - name: Commit changes
       run: |
-          git config user.name "borjeta"
+          git config --global user.name "borjeta"
           git config user.email github-actions[bot]@users.noreply.github.com
           npm version patch -m "[RELEASE] %s"
     - name: Push changes
