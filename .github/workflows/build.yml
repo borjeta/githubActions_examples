@@ -15,7 +15,8 @@ jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - name: Obtenemos repositorio
+        uses: actions/checkout@v2
       - name: Install dependencies
        #version de node 16
         uses: actions/setup-node@v2
@@ -54,8 +55,8 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v2
-   # - name: Generate meme
-    #  uses: ./
+    - name: Generate meme
+      uses: ./
       with:
         result: ${{ needs.test.outputs.result }}
     - name: Commit changes
