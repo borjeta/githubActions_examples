@@ -5,66 +5,50 @@ const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
 
-/*Obtenemos el nombre del repositorio*/
-const { repo: repoName } = repo;
-console.log(`Repo name ${repoName}!`);
 
-/* Obtenemos el nombre del usuario  ,el token de github y el nombre del repositorio*/
-const nameToGreet = core.getInput('who-to-greet');
-const token = core.getInput('token');
+
+/*Obtenemos el nombre del repositorio , el token de github */
 const repo = core.getInput('repo');
+const token = core.getInput('token');
+/*declaramos la funcion prueba */
+async function prueba() {
 
-
-exec('node index.js', (err, stdout, stderr) => {
-    if (err) {
-        // node couldn't execute the command
-        return;
+    const resultado = 1;
+    if (resultado == 1) {
+        return 1;
+    } else {
+        return 0;
     }
-    let resultado = stdout;
-    // the *entire* stdout and stderr (buffered)
-    console.log(`stdout: ${stdout}`);
-    console.log(`stderr: ${stderr}`);
+
+}
+
+prueba().then((resultado) => {
+    /*llama a la api de memes para obtener un meme al azar */
+    const url = 'https://meme-api.herokuapp.com/gimme';
+    fetch(url)
+        .then(res => res.json())
+        .then(json => {
+            /*creamos el comentario */
+            const comentario = `${resultado}`;
+            /*creamos el comentario en el repositorio */
+            const octokit = github.getOctokit(token);
+            octokit.issues.createComment({
+                owner: github.context.repo.owner,
+                repo: repo,
+                issue_number: github.context.issue.number,
+                body: comentario
+            });
+        });
+    /* y con la respuesta del meme modificamos el readme */
+    fs.readFile('README.md', 'utf8', function (err, data) {
+        if (err) {
+            return console.log(err);
+        }
+        var result = data.replace(/<h1>.*<\/h1>/g, `<h1>El resultado de la prueba es: ${resultado}</h1>`);
+
+        fs.writeFile('README.md', result, 'utf8', function (err) {
+            if (err) return console.log(err);
+        });
+    });
 });
-/*Ejecutara un script en bash que el ubuntu donde se ejecuta node en github actions tiene instalado*/
 
-// Language: javascript
-
-
-
-try {
-    // `who-to-greet` input defined in action metadata file
-    const nameToGreet = core.getInput('who-to-greet');
-    console.log(`Hello ${nameToGreet}!`);
-    const time = (new Date()).toTimeString();
-    core.setOutput("time", time);
-    // Get the JSON webhook payload for the event that triggered the workflow
-    const payload = JSON.stringify(github.context.payload, undefined, 2)
-    console.log(`The event payload: ${payload}`);
-} catch (error) {
-    core.setFailed(error.message);
-}
-
-/* Programa que ejecutará el action.yml y que pondra un meme feliz modificando el readme.md de github */
-
-try {
-
-    // Obtenemos el nombre del usuario
-    const nameToGreet = core.getInput('who-to-greet');
-    console.log(`Hello ${nameToGreet}!`);
-    
-    // Obtenemos el nombre del repositorio
-    const { context = {} } = github;
-    const { repo = {} } = context;
-    const { repo: repoName } = repo;
-    console.log(`Repo name ${repoName}!`);
-    
-    // Modificamos el readme.md
-    const data = fs.readFileSync('README.md', 'utf8');
-    const result = data.replace(/## Hi there 👋/g, `## Hi there 👋\n\n![meme](https://i.imgur.com/8ZQ9Z0m.png)`);
-    fs.writeFileSync('README.md', result, 'utf8');
-
-} catch (error) {
-    core.setFailed(error.message);
-}
-
-// Language: javascript
