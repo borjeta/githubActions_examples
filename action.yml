@@ -9,6 +9,17 @@
 
 # Path: action.yml
 name: 'Ejecuta index'
+description: 'Ejecuta index'
+inputs:
+  frase_positiva:
+    description: 'Los tests han funcionado y lo sabes'
+    required: true
+  frase_negativa:
+    description: 'Los tests han fallado y lo sabes'
+    required: true
+  resultado_tests:
+    description: 'resultado tests'
+    required: true
 runs:
   using: "node16"
   main: "index.js"

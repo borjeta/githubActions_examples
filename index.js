@@ -7,14 +7,8 @@ const repo = core.getInput('repo');
 const token = core.getInput('token');
 const axios = require('axios');
 const memejs = require('memejs');
-
-
-
-
-/* obtenemos el readme de la rama github_action_readme */
 const readme = fs.readFileSync('readme.md', 'utf8');
-/*Obtenemos los memes de la api de imgflip y cargamos las url en un array */
-/* usamos axios para hacer la peticion a la api */
+
 const memes = axios.get('https://api.imgflip.com/get_memes')
     .then((response) => {
         const memes = response.data.data.memes;
@@ -38,9 +32,11 @@ const editReadme = async () => {
     const meme = memesUrl[Math.floor(Math.random() * memesUrl.length)];
     const newReadme = readme + meme;
     fs.writeFileSync('readme.md', `<p></p><img src="${meme}" alt="meme" />`, 'utf8');
+
+    console.log("Los tests han funcionado y lo sabes ")
+    
 };
 editReadme();
 
-// aa
 
 
