@@ -9,6 +9,9 @@ name: modify_readme
 on:
   push:
     branches: github_actions_readme
+  pull:
+    branches: github_actions_readme
+    
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -26,7 +29,6 @@ jobs:
       - uses: actions/setup-node@v3
         with:
           node-version: 16
-
       - name: Install dependencies
         run: npm install
       - name: Instalar librerias
