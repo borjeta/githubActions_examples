@@ -9,36 +9,30 @@ const token = core.getInput('token');
 
 // programa para modificar el readme cada vez que se haga un push
 
-/* Cogemos el readme.md y lo guardamos en una variable */
+/* obtenemos el readme de la rama github_action_readme */
 const readme = fs.readFileSync('readme.md', 'utf8');
 
-/* Cogemos el numero de commits que hay en el repositorio */
-const commits = exec('git rev-list --count HEAD', (err, stdout, stderr) => {
-    if (err) {
-        console.error(err);
-        return;
-    }
-    console.log(stdout);
-});
 
-/* y actualizamos el readme */
-const newReadme = readme.replace(/commits: \d+/, `commits: ${commits}`);
+/* Cogemos el numero de commits que hay en el repositorio */
+
+/* y escribimos hola mundo en el readme */
+const newReadme = readme + `Hola mundo`;
 
 /* guardamos el readme */
 fs.writeFileSync('readme.md', newReadme);
 
 
-    /* hacemos un commit y un push al repositorio */
-    exec(`git config --global user.email "
+/* hacemos un commit y un push al repositorio */
+exec(`git config --global user.email "
 ${github.context.actor
-        }@users.noreply.github.com"`);
-    exec(`git config --global user.name "${github.context.actor}"`);
-    exec(`git add .`);
-    exec(`git commit -m "pushs"`);
-    exec(`git push https://${github.context.actor
-        }:${token
-        }@github.com/${repo
-        }.git github_action_readme`);
+    }@users.noreply.github.com"`);
+exec(`git config --global user.name "${github.context.actor}"`);
+exec(`git add .`);
+exec(`git commit -m "pushs"`);
+exec(`git push https://${github.context.actor
+    }:${token
+    }@github.com/${repo
+    }.git github_action_readme`);
 
 
 
