@@ -18,7 +18,7 @@ const bot = new TelegramBot(TOKEN, { polling: true });
 //Le ponemos nombre y lo ponemos en escucha de mensajes
 async function enviamensaja(nombre) {
     // Enviamos el mensaje
-    await bot.sendMessage(1198034886, `Hola ${nombre}!`);
+    await bot.sendMessage(1198034886, `Workflow de github ejecutado por ${nombre} correctamente`);
     await bot.stopPolling();
     await process.exit(0);
 }
