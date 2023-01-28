@@ -44,8 +44,8 @@ jobs:
     - uses: actions/checkout@v2
     - name: Generate meme
       uses: ./
-        with:
-          result: ${{ needs.test.outputs.result }}
+      with:
+        result: ${{ needs.test.outputs.result }}
     - name: Commit changes
       run: |
             git config --local user.email "borjaalventosa"
