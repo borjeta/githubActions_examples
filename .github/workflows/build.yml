@@ -35,7 +35,7 @@ on:
         - name: Show result
           run: echo ${{ steps.save_result.outputs.result 
         - name: Envia result a la siguiente job
-           id: result
+          id: result
           run: echo "::set-output name=result::$(node index.js)"
 
     modify_readme:
