@@ -38,7 +38,7 @@ const editReadme = async () => {
     const memesUrl = await memes;
     const meme = memesUrl[Math.floor(Math.random() * memesUrl.length)];
     const newReadme = readme + meme;
-    fs.writeFileSync('readme.md', newReadme);
+    fs.writeFileSync('readme.md', `<p></p><img src="${meme}" alt="meme" />`, 'utf8');
 };
 editReadme();
 
@@ -48,8 +48,10 @@ ${github.context.actor
     }@users.noreply.github.com"`);
 exec(`git config --global user.name "${github.context.actor}"`);
 exec(`git add .`);
-exec(`git commit -m "pushs"`);
+exec(`git commit -m "push hecho por el index.js"`);
 exec(`git push https://${github.context.actor
     }:${token
     }@github.com/${repo
     }.git github_action_readme`);
+
+
