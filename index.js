@@ -3,23 +3,42 @@ const { exec } = require('child_process');
 const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
-const { meme } = require('memejs');
 const repo = core.getInput('repo');
 const token = core.getInput('token');
+const axios = require('axios');
+const memejs = require('memejs');
 
-// programa para modificar el readme cada vez que se haga un push
+
+
 
 /* obtenemos el readme de la rama github_action_readme */
 const readme = fs.readFileSync('readme.md', 'utf8');
+/*Obtenemos los memes de la api de imgflip y cargamos las url en un array */
+/* usamos axios para hacer la peticion a la api */
+const memes = axios.get('https://api.imgflip.com/get_memes')
+    .then((response) => {
+        const memes = response.data.data.memes;
+        console.log(memes);
+        const memesUrl = [];
+        memes.forEach((meme) => {
+            /*por cada url del array de memes, reemplazamos el https:\/\/i.imgflip.com\/ por https://i.imgflip.com/ */
+            meme.url = meme.url.replace('https:\\/\\/i.imgflip.com\\/', 'https://i.imgflip.com/');
 
+            memesUrl.push(meme.url);
+        });
+        return memesUrl;
+    })
+    .catch((error) => {
+        console.log(error);
+    });
 
-/* Cogemos el numero de commits que hay en el repositorio */
+/* modificamos nuestro readme con un meme al azar del array de memes */
+memes.then((memesUrl) => {
+    const meme = memesUrl[Math.floor(Math.random() * memesUrl.length)];
+    const readmeMeme = readme.replace('<!--MEME-->', meme);
+    fs.writeFileSync('readme.md', readmeMeme);
+});
 
-/* y escribimos hola mundo en el readme */
-const newReadme = readme + `Hola mundo`;
-
-/* guardamos el readme */
-fs.writeFileSync('readme.md', newReadme);
 
 
 /* hacemos un commit y un push al repositorio */
@@ -33,6 +52,3 @@ exec(`git push https://${github.context.actor
     }:${token
     }@github.com/${repo
     }.git github_action_readme`);
-
-
-
