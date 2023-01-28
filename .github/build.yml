@@ -5,42 +5,34 @@
 #Otro encargado de llamar a nuestra action que genera el meme al que le pasaremos el resultado del job de ejecución de los tests
 #Otro encargado de subir los cambios a git para que se actualicen los cambios del readme en el repositorio.
 
-name: modify_readme
-on: push
-  branches: [ github_actions_readme ]
+name: 'Modify readme'
 
-  
+on:
+  push:
+    branches: [ github_actions_readme ]
+
+  pull_request:
+    branches: [ github_actions_readme ]
+
 jobs:
-  build:
+  test:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
-    
-  publish-npm:
-    needs: build
-    runs-on: ubuntu-latest
-    steps:
-      - uses: actions/checkout@v3
-      - uses: actions/setup-node@v3
-        with:
-          node-version: 16
+      - uses: actions/checkout@v2
       - name: Install dependencies
         run: npm install
-      - name: Instalar librerias
-        run: npm install axios
-      - name: Instalar api de memes
-        run: npm install meme-generator
-      - name: instalar dependencias de node 
-        run: npm install node-fetch
       - name: Run tests
         run: npm test
+
+  modify_readme:
+    needs: test
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
       - name: Generate meme
         uses: ./
         with:
-          result: ${{ job.status }}
+          result: ${{ needs.test.result }}
       - name: Commit changes
         run: |
           git config --local user.email "
@@ -49,8 +41,6 @@ jobs:
           git commit -m "Update README.md"
       - name: Push changes
         uses: ad-m/github-push-action@master
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          branch: github_actions_readme
+        
 
 
