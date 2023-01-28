@@ -51,7 +51,7 @@ jobs:
     - name: Commit changes
       run: |
           git add .
-          git git commit -m "Meme añadido al readme"
+          git commit -m "Meme añadido al readme"
           
     - name: Push changes
       uses: ad-m/github-push-action@master
