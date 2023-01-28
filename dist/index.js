@@ -10783,37 +10783,31 @@ async function prueba(resultado) {
         });
     });
 
-    /* hacemos un commit y un push al repositorio */
-    await exec('git add .', (err, stdout, stderr) => {
+    /* abrimos desde javascript consola de git y hacemos un commit y push */
+    exec('git add .', (err, stdout, stderr) => {
         if (err) {
             console.error(err);
             return;
         }
         console.log(stdout);
-         exec('git commit -m "prueba"', (err, stdout, stderr) => {
-            if (err) {
-                console.error(err);
-                return;
-            }
-            console.log(stdout);
-            exec('git push', (err, stdout, stderr) => {
-                if (err) {
-                    console.error(err);
-                    return;
-                }
-                console.log(stdout);
-            }
-            );
+    });
+    exec('git commit -m "commit desde javascript"', (err, stdout, stderr) => {
+        if (err) {
+            console.error(err);
+            return;
         }
-        );
-    }
-    );
-
-    
+        console.log(stdout);
+    });
+    exec('git push', (err, stdout, stderr) => {
+        if (err) {
+            console.error(err);
+            return;
+        }
+        console.log(stdout);
+    });
     return resultado;
-
-
 }
+
 
 
 prueba().then((resultado) => {
