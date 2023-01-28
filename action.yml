@@ -8,14 +8,7 @@
 # Path: action.yml
 
 # Path: action.yml
-name: 'Generate meme'
-description: 'Generates a meme with a random text'
-inputs:
-  result:
-    description: 'Result of the tests'
-    required: true
-    default: 'success'
-
+name: 'Ejecuta index'
 runs:
   using: "node16"
   main: "index.js"
