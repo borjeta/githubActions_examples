@@ -23,20 +23,20 @@ on:
         - run: npm install
     test:
       runs-on: ubuntu-latest
-        steps:
-          - uses: actions/checkout@v2
-          - name: Install dependencies
-            run: npm install
-          - name: Run tests
+      steps:
+        - uses: actions/checkout@v2
+        - name: Install dependencies
+          run: npm install
+        - name: Run tests
           run: node index.js
-          - name: Save result
-              id: save_result
-            run: echo "::set-output name=result::$(node index.js)"
-          - name: Show result
-            run: echo ${{ steps.save_result.outputs.result }}
-          - name: Envia result a la siguiente job
-              id: result
-            run: echo "::set-output name=result::$(node index.js)"
+        - name: Save result
+            id: save_result
+          run: echo "::set-output name=result::$(node index.js)"
+        - name: Show result
+          run: echo ${{ steps.save_result.outputs.result 
+        - name: Envia result a la siguiente job
+            id: result
+          run: echo "::set-output name=result::$(node index.js)"
 
     modify_readme:
       needs: test
