@@ -67,7 +67,7 @@ jobs:
 
             
     - name: Push changes
-      run: git push origin github_actions_readme
+      run: git push 
     
           
 
