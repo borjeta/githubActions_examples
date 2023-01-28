@@ -50,8 +50,8 @@ jobs:
       uses: ./
     - name: Commit changes
       run: |
-          git config --global user.name "borjeta"
-          git config user.email github-actions[bot]@users.noreply.github.com
+          git add .
+          git git commit -m "Meme añadido al readme"
           npm version patch -m "[RELEASE] %s"
     - name: Push changes
       uses: ad-m/github-push-action@master
