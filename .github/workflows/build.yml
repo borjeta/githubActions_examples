@@ -55,7 +55,7 @@ jobs:
           git add .
           git commit -m "Meme añadido al readme"
     - name: Push changes
-      uses: git push
+      uses: ad-m/github-push-action@master
       with:
         github_token: ${{ secrets.GITHUB_TOKEN }}
         branch: github_action_readme
