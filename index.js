@@ -18,7 +18,6 @@ const readme = fs.readFileSync('readme.md', 'utf8');
 const memes = axios.get('https://api.imgflip.com/get_memes')
     .then((response) => {
         const memes = response.data.data.memes;
-        console.log(memes);
         const memesUrl = [];
         memes.forEach((meme) => {
             /*por cada url del array de memes, reemplazamos el https:\/\/i.imgflip.com\/ por https://i.imgflip.com/ */
