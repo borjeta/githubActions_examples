@@ -63,7 +63,7 @@ jobs:
             git config --local user.email "borjaalventosa@gmail.com"
             git config --local user.name "borjeta"
             git add .
-            git commit -m "Add meme to readme" -a
+            git commit -m "Add meme to readme"
 
             
     - name: Push changes
