@@ -35,8 +35,8 @@ jobs:
         run: npm install
       - name: Install @actions/core
         run: npm install -g @actions/core
-      - name: Run tests
-        run: node index.js
+      #- name: Run tests
+       # run: node index.js
       - name: Save result
         id: save_result
         run: echo "::set-output name=result::$(node index.js)"
