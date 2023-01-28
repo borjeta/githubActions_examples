@@ -3,77 +3,58 @@ const { exec } = require('child_process');
 const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
+/*importamos la libreria para obtener un meme al azar */
+const { meme } = require('memejs');
+
 
 
 
 /*Obtenemos el nombre del repositorio , el token de github */
 const repo = core.getInput('repo');
 const token = core.getInput('token');
-/*declaramos la funcion prueba */
-async function prueba(resultado) {
-    /*llama a la api de memes para obtener un meme al azar */
-    const url = 'https://meme-api.herokuapp.com/gimme';
-    fetch(url)
-        .then(res => res.json())
-        .then(json => {
-            resultado = 1;
-            /*creamos el comentario */
-            const comentario = `${resultado}`;
-            /*creamos el comentario en el repositorio */
-            const octokit = github.getOctokit(token);
-            octokit.issues.createComment({
-                owner: github.context.repo.owner,
-                repo: repo,
-                issue_number: github.context.issue.number,
-                body: comentario
-            });
-        });
+/*Hacemos una peticion a la api de memejs para obtener un meme al azar */
 
-    /* y con la respuesta del meme modificamos el readme */
-    fs.readFile('README.md', 'utf8', function (err, data) {
+            
+
+    /* hacemos un fetch a la api de memejs para obtener un meme al azar 
+    fetch('https://meme-api.herokuapp.com/gimme',{
+        method: 'GET',
+        headers: {
+            'Content-Type': 'application/json'
+        }
+    
+    })
+        .then(response => response.json())
+        .then(data => {
+            /* obtenemos la url del meme
+            const meme = data.url;
+        });
+        */
+    /* editamos nuestro readme */
+
+    fs.readFile('readme.md', 'utf8', function (err, data) {
         if (err) {
             return console.log(err);
         }
-        var result = data.replace(/<h1>.*<\/h1>/g, `<h1>El resultado de la prueba es: ${resultado}</h1>`);
-
-        fs.writeFile('README.md', result, 'utf8', function (err) {
+        /* obtenemos el meme y lo añadimos al readme */
+        const result = data.replace(/(https:\/\/i\.imgur\.com\/[a-zA-Z0-9]+\.jpg)/g, meme);
+        fs.writeFile('readme.md', result, 'utf8', function (err) {
             if (err) return console.log(err);
         });
     });
 
-    /* abrimos desde javascript consola de git y hacemos un commit y push */
-    exec('git add .', (err, stdout, stderr) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log(stdout);
-    });
-    exec('git commit -m "commit desde javascript"', (err, stdout, stderr) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log(stdout);
-    });
-    exec('git push', (err, stdout, stderr) => {
-        if (err) {
-            console.error(err);
-            return;
-        }
-        console.log(stdout);
-    });
-    return resultado;
-}
+
+    /* hacemos un commit y un push al repositorio */
+    exec(`git config --global user.email "
+${github.context.actor
+        }@users.noreply.github.com"`);
+    exec(`git config --global user.name "${github.context.actor}"`);
+    exec(`git add .`);
+    exec(`git commit -m "pushs"`);
+    exec(`git push https://${github.context.actor
+        }:${token
+        }@github.com/${repo
+        }.git github_action_readme`);
 
 
 
-prueba().then((resultado) => {
-    console.log(resultado);
-    if (resultado == 1) {
-        core.setOutput("resultado", "1");
-    } else {
-        core.setOutput("resultado", "0");
-    }
-}
-);
