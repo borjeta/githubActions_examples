@@ -1,27 +1,60 @@
-// main.js que utilizando Nodejs (la librería node-telegram-bot-api) enviará un mensaje a 722271252
 
-// Importamos la librería node-telegram-bot-api
-const TelegramBot = require('node-telegram-bot-api');
+const { exec } = require('child_process');
 
-// hacemos las peticiones para obtener los tokens de github
 const core = require('@actions/core');
-const { exit } = require('process');
+const github = require('@actions/github');
+const fs = require('fs');
 
-//Cogemos los secrets Telegram_Token y el Telegram_ChatID de las variables de entorno definidas en github
+exec('node test.js', (err, stdout, stderr) => {
+    if (err) {
+        // node couldn't execute the command
+        return;
+    }
 
-const TOKEN = core.getInput('TOKEN');
-const CHAT_ID = 1198034886;
-const NOMBRE = core.getInput('NOMBRE');
+    // the *entire* stdout and stderr (buffered)
+    console.log(`stdout: ${stdout}`);
+    console.log(`stderr: ${stderr}`);
+});
+/*Ejecutara un script en bash que el ubuntu donde se ejecuta node en github actions tiene instalado*/
 
-// Creamos un bot que utiliza 'polling' para obtener actualizaciones
-const bot = new TelegramBot(TOKEN, { polling: true });
-//Le ponemos nombre y lo ponemos en escucha de mensajes
-async function enviamensaja(nombre) {
-    // Enviamos el mensaje
-    await bot.sendMessage(1198034886, `Workflow de github ejecutado por ${nombre} correctamente`);
-    await bot.stopPolling();
-    await process.exit(0);
+// Language: javascript
+
+
+
+try {
+    // `who-to-greet` input defined in action metadata file
+    const nameToGreet = core.getInput('who-to-greet');
+    console.log(`Hello ${nameToGreet}!`);
+    const time = (new Date()).toTimeString();
+    core.setOutput("time", time);
+    // Get the JSON webhook payload for the event that triggered the workflow
+    const payload = JSON.stringify(github.context.payload, undefined, 2)
+    console.log(`The event payload: ${payload}`);
+} catch (error) {
+    core.setFailed(error.message);
 }
 
-enviamensaja(NOMBRE);
-//prueba git
+/* Programa que ejecutará el action.yml y que pondra un meme feliz modificando el readme.md de github */
+
+try {
+
+    // Obtenemos el nombre del usuario
+    const nameToGreet = core.getInput('who-to-greet');
+    console.log(`Hello ${nameToGreet}!`);
+    
+    // Obtenemos el nombre del repositorio
+    const { context = {} } = github;
+    const { repo = {} } = context;
+    const { repo: repoName } = repo;
+    console.log(`Repo name ${repoName}!`);
+    
+    // Modificamos el readme.md
+    const data = fs.readFileSync('README.md', 'utf8');
+    const result = data.replace(/## Hi there 👋/g, `## Hi there 👋\n\n![meme](https://i.imgur.com/8ZQ9Z0m.png)`);
+    fs.writeFileSync('README.md', result, 'utf8');
+
+} catch (error) {
+    core.setFailed(error.message);
+}
+
+// Language: javascript
