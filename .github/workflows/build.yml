@@ -11,7 +11,7 @@ on:
   push:
     branches:
             - github_action_readme
-  jobs:
+jobs:
     build:
       steps:
         - uses: actions/checkout@v2
