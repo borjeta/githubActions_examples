@@ -6,22 +6,37 @@
 #Otro encargado de subir los cambios a git para que se actualicen los cambios del readme en el repositorio.
 
 name: modify_readme
-
 on:
   push:
-    branches:  github_action_readme 
-  pull_request:
-    branches: [ github_action_readme ]
-
+    branches: github_actions_readme
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+    
+  publish-npm:
+    needs: build
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-node@v3
+        with:
+          node-version: 16
+
+      - name: Install dependencies
+        run: npm install
+      - name: Instalar librerias
+        run: npm install axios
+      - name: Instalar api de memes
+        run: npm install meme-generator
+      - name: instalar dependencias de node 
+        run: npm install node-fetch
       - name: Run tests
-        run: |
-          npm install
-          npm test
+        run: npm test
       - name: Generate meme
         uses: ./
         with:
@@ -29,7 +44,13 @@ jobs:
       - name: Commit changes
         run: |
           git config --local user.email "
-          git config --local user.name "
+          git config --local user.name "GitHub Actions"
           git add .
           git commit -m "Update README.md"
-          git push
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: github_actions_readme
+
+

@@ -7,16 +7,16 @@
 
 # Path: action.yml
 
+# Path: action.yml
 name: 'Generate meme'
 description: 'Generates a meme with a random text'
-#Realiza una peticion a la api de memes para obtener un meme con un texto aleatorio
-#El texto que se utilizará será el que se haya pasado como parámetro de entrada
-#El meme se guardará en la carpeta images
-#El meme se añadirá al readme.md del proyecto
-  inputs:
-    result:
-      description: 'Result of the tests'
-      required: true
-      default: 'success'
+inputs:
+  result:
+    description: 'Result of the tests'
+    required: true
+    default: 'success'
 
-  
+runs:
+  using: "node16"
+  main: "index.js"
+
