@@ -1,5 +1,5 @@
 
-const { exec } = require('child_process');
+const  exec  = require('child_process');
 const core = require('@actions/core');
 const github = require('@actions/github');
 const fs = require('fs');
@@ -42,9 +42,6 @@ const editReadme = async () => {
 };
 editReadme();
 
-/* hacemos un commit y un push al repositorio */
-exec(`git add .`);
-exec(`git commit -m "push hecho por el index.js"`);
-exec(`git push`);
+
 
 

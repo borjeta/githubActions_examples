@@ -60,16 +60,15 @@ jobs:
         result: ${{ needs.test.outputs.result }}
     - name: Commit changes
       run: |
-            git config --local user.email "borjaalventosa"
+            git config --local user.email "borjaalventosa@gmail.com"
             git config --local user.name "borjeta"
             git add .
             git commit -m "Add meme to readme" -a
+
             
     - name: Push changes
-      uses: git push origin github_actions_readme
-      with:
-        github_token: ${{ secrets.GITHUB_TOKEN }}
-        branch: github_actions_readme
+      run: git push origin github_actions_readme
+    
           
 
         
