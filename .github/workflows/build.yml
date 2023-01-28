@@ -52,7 +52,7 @@ jobs:
       run: |
           git add .
           git git commit -m "Meme añadido al readme"
-          npm version patch -m "[RELEASE] %s"
+          
     - name: Push changes
       uses: ad-m/github-push-action@master
       with:
