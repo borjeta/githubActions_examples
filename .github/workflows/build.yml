@@ -60,10 +60,14 @@ jobs:
       uses: ./
     - name: Commit changes
       run: |
-            git config --local user.email "borjaalventosa@gmail.com"
-            git config --local user.name "borjeta"
-            git add .
-            git commit -m "Add meme to readme"
+          git config user.name github-actions[bot]
+          git config user.email github-actions[bot]@users.noreply.github.com
+          npm version patch -m "[RELEASE] %s"
+      - name: Push changes
+        uses: ad-m/github-push-action@master
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          branch: github_action_readme
 
             
     - name: Push changes
