@@ -13,13 +13,12 @@ pipeline {
         }
         stage('test') {
             steps {
-                sh 'npm run test'
+                sh 'npm run jest'
             }
         }
         stage('deploy') {
             steps {
-                
-                sh 'npm run start'
+                sh 'npm run deploy'
             }
         }
     }
