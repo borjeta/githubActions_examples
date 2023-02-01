@@ -8,12 +8,12 @@ pipeline {
     stages {
         stage('test') {
             steps {
-                sh 'npm run jest'
+                cmd 'npm run jest'
             }
         }
         stage('deploy') {
             steps {
-                sh 'npm run deploy'
+                cmd 'npm run deploy'
             }
         }
     }
