@@ -6,6 +6,11 @@ Una stage llamada "linter" que llamara al superlinterv4 para comprobar que el cÃ
 pipeline {
     agent any
     stages {
+        stage('linter') {
+            steps {
+                sh 'npm run lint'
+            }
+        }
         stage('test') {
             steps {
                 shell 'npm run jest'
