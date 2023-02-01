@@ -8,7 +8,7 @@ pipeline {
     stages {
         stage('linter') {
             steps {
-                sh 'npm run lint'
+                shell 'npm run lint'
             }
         }
         stage('test') {
